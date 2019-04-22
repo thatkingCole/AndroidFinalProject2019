@@ -1,15 +1,25 @@
-package com.example.thegambler;
+package com.example.androidfinal;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatImageButton;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Random;
 
-public class SlotMachine extends AppCompatActivity {
+
+public class SlotMachine extends Fragment {
+
+    SlotMachineCallBack activity;
 
     public TextView msg;
     public TextView chipMsg;
@@ -25,27 +35,36 @@ public class SlotMachine extends AppCompatActivity {
         return lower + (long) (RANDOM.nextDouble() * (upper - lower));
     }
 
+    public interface SlotMachineCallBack {
+    }
+
+    public SlotMachine() {
+        super();
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (SlotMachineCallBack) context;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.slot_machine_frag, container,
+                false);
 
         chipCount = 100;
 
-//        img1 = findViewById(R.id.img1);
-//        img2 = findViewById(R.id.img2);
-//        img3 = findViewById(R.id.img3);
-//        btn = findViewById(R.id.btn);
-//        msg = findViewById(R.id.msg);
-//        chipMsg = findViewById(R.id.chipCount);
 
-        //chipMsg.setText("Your current chip count is: "+ chipCount);
-
-        img1 = findViewById(R.id.img1);
-        img2 = findViewById(R.id.img2);
-        img3 = findViewById(R.id.img3);
-        btn = findViewById(R.id.btn);
-        msg = findViewById(R.id.msg);
+        img1 = view.findViewById(R.id.img1);
+        img2 = view.findViewById(R.id.img2);
+        img3 = view.findViewById(R.id.img3);
+        btn = view.findViewById(R.id.btn);
+        msg = view.findViewById(R.id.msg);
 
         if (btn != null) {
             btn.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +110,7 @@ public class SlotMachine extends AppCompatActivity {
                         wheel1 = new Wheel(new Wheel.WheelListener() {
                             @Override
                             public void newImage(final int img) {
-                                runOnUiThread(new Runnable() {
+                                getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         img1.setImageResource(img);
@@ -105,7 +124,7 @@ public class SlotMachine extends AppCompatActivity {
                         wheel2 = new Wheel(new Wheel.WheelListener() {
                             @Override
                             public void newImage(final int img) {
-                                runOnUiThread(new Runnable() {
+                                getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         img2.setImageResource(img);
@@ -119,7 +138,7 @@ public class SlotMachine extends AppCompatActivity {
                         wheel3 = new Wheel(new Wheel.WheelListener() {
                             @Override
                             public void newImage(final int img) {
-                                runOnUiThread(new Runnable() {
+                                getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         img3.setImageResource(img);
@@ -137,5 +156,8 @@ public class SlotMachine extends AppCompatActivity {
                 }
             });
         }
+
+            return view;
     }
 }
+

@@ -26,7 +26,8 @@ public class BlackJack extends AppCompatActivity {
         Intent swap = new Intent(v.getContext(), MainActivity.class);
         startActivity(swap);
     }
-    Button draw = (Button) findViewById(R.id.drawBTN);
+    Button draw = findViewById(R.id.drawBTN);
+
     public void drawAction(View v) {
         draw.setOnClickListener(
                 new Button.OnClickListener() {
