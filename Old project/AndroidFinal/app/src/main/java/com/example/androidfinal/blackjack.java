@@ -2,6 +2,7 @@ package com.example.androidfinal;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,42 +58,60 @@ public class blackjack extends Fragment {
                                     int UserDraw = myDeck[carddrawuser] + UserTotal;
                                     UserTotal = UserDraw;
 
-                                    userscore.setText("Score: " + UserTotal);
+                                    userscore.setText("Score: "+UserTotal);
 
                                     int carddrawcomp = rand.nextInt(52);
                                     int CompDraw = myDeck[carddrawcomp] + CompTotal;
                                     CompTotal = CompDraw;
+                                    compscore.setText("Computer: "+CompTotal);
 
-                                    compscore.setText("Computer: " + compscore);
 
-
-                                    if (UserTotal > 21) {
+                                    if(UserTotal>21){
                                         //print game over you lose
                                         dialogLost();
+                                        CompTotal = 0;
+                                        compscore.setText("Computer: "+CompTotal);
+                                        UserTotal = 0;
+                                        userscore.setText("Score: "+UserTotal);
                                     }
 
-                                    if (CompTotal > 21) {
+                                    if(CompTotal>21){
                                         //print game over you win
                                         dialogWin();
+                                        CompTotal = 0;
+                                        compscore.setText("Computer: "+CompTotal);
+                                        UserTotal = 0;
+                                        userscore.setText("Score: "+UserTotal);
                                     }
                                 }
                             }
                     );
                 }
         });
+
         hold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 while (CompTotal < 21) {//computer keeps drawing until they hit 21 or bust
                     Random rand = new Random();
                     int carddrawcomp = rand.nextInt(52);
                     int CompDraw = myDeck[carddrawcomp] + CompTotal;
                     CompTotal = CompDraw;
-                    compscore.setText("Computer: " + compscore);
-                    if (CompTotal < 21) {//if comp>21 you win
-                        dialogWin();
-                    }
+                    compscore.setText("Computer: "+CompTotal);
+                }
+                if (CompTotal > 21) {//if comp>21 you win
+                    dialogWin();
+                    CompTotal = 0;
+                    compscore.setText("Computer: "+CompTotal);
+                    UserTotal = 0;
+                    userscore.setText("Score: "+UserTotal);
+                }
+                if (CompTotal > UserTotal) {
+                    dialogLost();
+                    CompTotal = 0;
+                    compscore.setText("Computer: "+CompTotal);
+                    UserTotal = 0;
+                    userscore.setText("Score: "+UserTotal);
                 }
             }
         });
@@ -100,6 +119,8 @@ public class blackjack extends Fragment {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserTotal = 0;
+                CompTotal = 0;
                 userscore.setText("Score: ");
                 compscore.setText("Computer: ");
             }
@@ -115,26 +136,33 @@ public class blackjack extends Fragment {
     }
 
 
-    public void switchAction(View v) {
-        Intent swap = new Intent(v.getContext(), MainActivity.class);
-        startActivity(swap);
-    }
 
     //user decides if they want to draw
     //if user or computer has score greater than or equal to 21 game over
-
-    public void dialogLost() {
-        new AlertDialog.Builder(getActivity())
+    public void dialogLost(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setMessage("You went over 21, game reset")
                 .setTitle("Game Over")
-                .setMessage("You went over 21 please reset game to play again")
-                .setPositiveButton("Ok", null);
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        dialog.show();
     }
 
-    public void dialogWin() {
-        new AlertDialog.Builder(getActivity())
+    public void dialogWin(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setMessage("Host went over 21, game reset")
                 .setTitle("Game Over")
-                .setMessage("Host went over 21 please reset game to play again")
-                .setPositiveButton("Ok", null);
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        dialog.show();
     }
 
 }

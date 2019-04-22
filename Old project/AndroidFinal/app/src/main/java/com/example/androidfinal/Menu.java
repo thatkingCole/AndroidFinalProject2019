@@ -21,6 +21,7 @@ public class Menu extends Fragment {
     public interface MenuCallBack{
         public void swapOutSlot();
         public void swapOutBlack();
+        public void swapOutRoulette();
     }
 
     public void onAttach(Context context) {
@@ -53,6 +54,14 @@ public class Menu extends Fragment {
             @Override
             public void onClick(View v) {
                 activity.swapOutBlack();
+            }
+        });
+
+        AppCompatImageButton rouletteBTN = view.findViewById(R.id.RouletteWheelStartBTN);
+        rouletteBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.swapOutRoulette();
             }
         });
 

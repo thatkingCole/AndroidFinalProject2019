@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.thegambler.R;
+import com.example.AndroidFinalProject2019.R;
 
 import java.util.Random;
 
