@@ -21,7 +21,9 @@ public class roulette extends Fragment {
 
     RouletteCallBack activity;
 
-    public interface RouletteCallBack {}
+    public interface RouletteCallBack {
+        public void swapOutMenu();
+    }
 
     // sectors of our wheel (look at the image to see the sectors)
     private static final String[] sectors = { "32 red", "15 black",
@@ -30,14 +32,17 @@ public class roulette extends Fragment {
             "23 red", "10 black", "5 red", "24 black", "16 red", "33 black",
             "1 red", "20 black", "14 red", "31 black", "9 red", "22 black",
             "18 red", "29 black", "7 red", "28 black", "12 red", "35 black",
-            "3 red", "26 black", "zero"
-    };
+            "3 red", "26 black", "zero"};
+
+    Button home;
     Button spinBtn;
     TextView resultTV;
     ImageView wheel;
+
     // We create a Random instance to make our wheel spin randomly
     private static final Random RANDOM = new Random();
     private int degree = 0, degreeOld = 0;
+
     // We have 37 sectors on the wheel, we divide 360 by this value to have angle for each sector
     // we divide by 2 to have a half sector
     private static final float HALF_SECTOR = 360f / 37f / 2f;
@@ -52,6 +57,14 @@ public class roulette extends Fragment {
         resultTV = view.findViewById(R.id.resultTV);
         wheel = view.findViewById(R.id.wheel);
 
+        home = view.findViewById(R.id.homeBTN);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.swapOutMenu();
+            }
+        });
 
         spinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,14 +119,10 @@ public class roulette extends Fragment {
                 // so text is equals to sectors[i];
                 text = sectors[i];
             }
-
             i++;
-            // now we can test our Android Roulette Game :)
-            // That's all !
-            // In the second part, you will learn how to add some bets on the table to play to the Roulette Game :)
-            // Subscribe and stay tuned !
 
-        } while (text == null  &&  i < sectors.length);
+        }
+        while (text == null  &&  i < sectors.length);
 
         return text;
     }

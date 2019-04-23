@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.example.AndroidFinalProject2019.R;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -35,6 +37,7 @@ public class BlackJack extends AppCompatActivity {
 
     Button draw = (Button) findViewById(R.id.drawBTN); //defines button draw
     Button hold = (Button) findViewById(R.id.holdBTN); //defines button hold
+    Button start = findViewById(R.id.startBTN);
     Button reset = (Button) findViewById(R.id.resetBTN); //defines button reset
     int[] myDeck = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
                     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
@@ -52,26 +55,20 @@ public class BlackJack extends AppCompatActivity {
                     public void onClick(View v) {
                         Random rand = new Random();
                         int carddrawuser = rand.nextInt(52);
-                        int UserDraw = myDeck[carddrawuser] + UserTotal;
-                        UserTotal = UserDraw;
-
+                        int UserDrawOne = myDeck[carddrawuser] + UserTotal;
+                        UserTotal = UserDrawOne;
                         userscore.setText("Score: "+UserTotal);
-
-                        int carddrawcomp = rand.nextInt(52);
-                        int CompDraw = myDeck[carddrawcomp] + CompTotal;
-                        CompTotal = CompDraw;
-
-                        compscore.setText("Computer: "+compscore);
-
 
                         if(UserTotal>21){
                             //print game over you lose
                             dialogLost();
-                        }
-
-                        if(CompTotal>21){
-                            //print game over you win
-                            dialogWin();
+                            CompTotal = 0;
+                            compscore.setText("Host: "+CompTotal);
+                            UserTotal = 0;
+                            userscore.setText("Score: "+UserTotal);
+                            hold.setVisibility(View.INVISIBLE);
+                            draw.setVisibility(View.INVISIBLE);
+                            start.setVisibility(View.VISIBLE);
                         }
 
                     }
@@ -94,27 +91,45 @@ public class BlackJack extends AppCompatActivity {
 
     //hides draw and hold button if computer has score less than 21 they continue to draw
     public void holdAction(View v) {
-
         hold.setOnClickListener(
                 new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        hold.setVisibility(View.INVISIBLE);
-//                        draw.setVisibility(View.INVISIBLE);
-
-                        while (CompTotal < 21) {//computer keeps drawing until they hit 21 or bust
-                            Random rand = new Random();
-                            int carddrawcomp = rand.nextInt(52);
-                            int CompDraw = myDeck[carddrawcomp] + CompTotal;
-                            CompTotal = CompDraw;
-                            compscore.setText("Computer: "+compscore);
-                            if (CompTotal < 21) {//if comp>21 you win
-                                dialogWin();
-                            }
-                        }
+                        Random rand = new Random();
+                        int carddrawcomp = rand.nextInt(52);
+                        int CompDraw = myDeck[carddrawcomp] + CompTotal;
+                        CompTotal = CompDraw;
+                        compscore.setText("Host: "+CompTotal);
+                        gameCheck();
                     }
                 }
         );
+    }
+    public void gameCheck(){
+        if (CompTotal > 21) {
+            dialogWin();
+            CompTotal = 0;
+            compscore.setText("Host: "+CompTotal);
+            UserTotal = 0;
+            userscore.setText("Score: "+UserTotal);
+            hold.setVisibility(View.INVISIBLE);
+            draw.setVisibility(View.INVISIBLE);
+            start.setVisibility(View.VISIBLE);
+        }
+        else if (CompTotal > UserTotal && CompTotal < 21) {
+            dialogLost();
+            CompTotal = 0;
+            compscore.setText("Host: "+CompTotal);
+            UserTotal = 0;
+            userscore.setText("Score: "+UserTotal);
+            hold.setVisibility(View.INVISIBLE);
+            draw.setVisibility(View.INVISIBLE);
+            start.setVisibility(View.VISIBLE);
+        }
+        else {
+
+        }
+
     }
 
     public void resetGame(View v){

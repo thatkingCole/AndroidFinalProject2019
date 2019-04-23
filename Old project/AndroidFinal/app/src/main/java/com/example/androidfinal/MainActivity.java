@@ -53,4 +53,16 @@ public class MainActivity extends AppCompatActivity implements
         transaction.hide(menuFrag);
         transaction.commit();
     }
+
+    @Override
+    public void swapOutMenu() {
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(rouletteFrag);
+        transaction.hide(blackjackFrag);
+        transaction.hide(slotFrag);
+        transaction.show(menuFrag);
+        transaction.commit();
+
+    }
 }

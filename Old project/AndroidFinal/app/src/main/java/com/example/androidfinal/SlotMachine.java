@@ -26,6 +26,7 @@ public class SlotMachine extends Fragment {
     public ImageView img1, img2, img3;
     public Wheel wheel1, wheel2, wheel3;
     public Button btn;
+    public Button home;
     public boolean isStarted;
     public int chipCount;
 
@@ -36,6 +37,7 @@ public class SlotMachine extends Fragment {
     }
 
     public interface SlotMachineCallBack {
+        public void swapOutMenu();
     }
 
     public SlotMachine() {
@@ -59,6 +61,14 @@ public class SlotMachine extends Fragment {
 
         chipCount = 100;
 
+        home = view.findViewById(R.id.homeBTN);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.swapOutMenu();
+            }
+        });
 
         img1 = view.findViewById(R.id.img1);
         img2 = view.findViewById(R.id.img2);
@@ -159,5 +169,6 @@ public class SlotMachine extends Fragment {
 
             return view;
     }
+
 }
 
