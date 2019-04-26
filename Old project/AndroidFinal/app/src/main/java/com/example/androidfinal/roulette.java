@@ -23,6 +23,9 @@ public class roulette extends Fragment {
 
     public interface RouletteCallBack {
         public void swapOutMenu();
+        public void swapOutToTable();
+        public int betCalc(int correct, String color);
+        public int totalbet();
     }
 
     // sectors of our wheel (look at the image to see the sectors)
@@ -36,8 +39,13 @@ public class roulette extends Fragment {
 
     Button home;
     Button spinBtn;
+    Button betBtn;
     TextView resultTV;
     ImageView wheel;
+
+    String var;
+    TextView exam;
+    TextView tempTV;
 
     // We create a Random instance to make our wheel spin randomly
     private static final Random RANDOM = new Random();
@@ -55,7 +63,11 @@ public class roulette extends Fragment {
 
         spinBtn = view.findViewById(R.id.spinBTN);
         resultTV = view.findViewById(R.id.resultTV);
+        betBtn = view.findViewById(R.id.betBTN);
         wheel = view.findViewById(R.id.wheel);
+
+        exam = view.findViewById(R.id.example);
+        tempTV = view.findViewById(R.id.woo);
 
         home = view.findViewById(R.id.homeBTN);
 
@@ -63,6 +75,13 @@ public class roulette extends Fragment {
             @Override
             public void onClick(View v) {
                 activity.swapOutMenu();
+            }
+        });
+
+        betBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.swapOutToTable();
             }
         });
 
@@ -82,13 +101,24 @@ public class roulette extends Fragment {
                         @Override
                         public void onAnimationStart(Animation animation) {
                             // we empty the result text view when the animation start
-                            resultTV.setText("");
+                            resultTV.setText("Result: ");
                         }
 
                         @Override
                         public void onAnimationEnd(Animation animation) {
                             // we display the correct sector pointed by the triangle at the end of the rotate animation
                             resultTV.setText(getSector(360 - (degree % 360)));
+                            var = (getSector(360 - (degree % 360)));
+                            exam.setText(var);
+                            String temp = exam.getText().toString();
+
+                            if (temp != null) {
+                                String holder[] = temp.split(" ");
+                                tempTV.setText(holder[0]);
+                                int tempNum = Integer.parseInt(holder[0]);
+                                exam.setText("You bet: "+ activity.totalbet());
+                                tempTV.setText("You won: " + activity.betCalc(tempNum, holder[1]));
+                            }
                         }
 
                         @Override
