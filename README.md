@@ -17,3 +17,4 @@ bottom that displays Score and Host Score. If user busts (goes over 21) OR once 
 without busting dialog lost displays. If host busts OR fails to get a score higher than user dialog win displays.
 
 # Roulette Wheel
+The start screen shows a roulette wheel with a home button, a place bet button, and a spin button.  The home button takes the user back to the app's main screen.  The bet button opens up a screen where the user can place a bet based on color, number, etc.  The user can place how much they would like to bet on the spin as well.  The user then selects the spin button to spin the wheel and depending on the bet and results of the spin a message is prompted letting the user know how much they won/lost on that spin.
