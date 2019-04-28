@@ -9,6 +9,10 @@ Roulette Wheel. The user can play the game for as long as they want and when the
 go back to Main activity to select their next game.
 
 # Slot Machine
+Slot Machine is a simple game where the user will click the start button and the wheels will begin to spin and the user has to hit the stop button to stop the wheels.
+Also there is a home button that will take the user back to the main menu.
+The Wheel spin at random and depending on what the wheel stops on it will print out what the user wins either a small amount of chips or a large amount of chips.
+This is for later intergration of chips to be used across games.
 
 # Black Jack
 Simple setup, the user is presented two buttons when activity opens, START and HOME. If user hits start the start button is hidden with 
